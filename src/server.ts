@@ -1,19 +1,24 @@
-import express from "express";
+import express from 'express';
 
 export class Server {
-  private app: express.Express;
+  private readonly app: express.Express;
 
   constructor() {
     this.app = express();
   }
 
-  public start(port: number) {
-    return new Promise((resolve, reject) => {
-      this.app
-        .listen(port, () => {
-          resolve(port);
-        })
-        .on("error", (err: Object) => reject(err));
-    });
+  public async start(port: number): Promise<number> {
+    return new Promise(
+      (
+        resolve: (port: number) => void,
+        reject: (error: unknown) => void,
+      ): void => {
+        this.app
+          .listen(port, () => {
+            resolve(port);
+          })
+          .on('error', (err: unknown) => reject(err));
+      },
+    );
   }
 }

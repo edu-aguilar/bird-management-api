@@ -6,9 +6,9 @@ const server: Server = new Server();
 
 server
   .start(PORT)
-  .then((port) => {
+  .then((port: number) => {
     console.log(`Server running at port ${port}`);
   })
-  .catch((err: Object) => {
+  .catch((err: unknown) => {
     console.log(`Error starting server: ${JSON.stringify(err)}`);
   });
