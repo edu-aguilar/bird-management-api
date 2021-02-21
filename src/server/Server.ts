@@ -1,10 +1,16 @@
 import express from 'express';
 
+import { GetApiRequestHandler } from './request-handler/GetApiRequestHandler';
+
 export class Server {
-  private readonly app: express.Express; // dummy comment due to rename
+  private readonly app: express.Express;
+  private readonly getApiRequestHandler: GetApiRequestHandler;
 
   constructor() {
+    this.getApiRequestHandler = new GetApiRequestHandler();
+
     this.app = express();
+    this.setupEndpoints();
   }
 
   public async start(port: number): Promise<number> {
@@ -20,5 +26,10 @@ export class Server {
           .on('error', (err: unknown) => reject(err));
       },
     );
+  }
+
+  private setupEndpoints() {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    this.app.route('/').get(this.getApiRequestHandler.handler);
   }
 }
