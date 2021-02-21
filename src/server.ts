@@ -1,7 +1,7 @@
 import express from 'express';
 
 export class Server {
-  private readonly app: express.Express;
+  private readonly app: express.Express; // dummy comment due to rename
 
   constructor() {
     this.app = express();
