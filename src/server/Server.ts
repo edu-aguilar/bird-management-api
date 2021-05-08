@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { environmentLoader } from './modules/EnvironmentLoader';
 import { GetApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
@@ -10,6 +11,7 @@ export class Server {
     this.getApiRequestHandler = new GetApiRequestHandler();
 
     this.app = express();
+    this.setupServer();
     this.setupEndpoints();
   }
 
@@ -26,6 +28,11 @@ export class Server {
           .on('error', (err: unknown) => reject(err));
       },
     );
+  }
+
+  private setupServer() {
+    environmentLoader.load();
+    environmentLoader.getEnvironmentVariables();
   }
 
   private setupEndpoints() {
