@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "docker": "docker-compose up -d",
+    "docker:": "docker-compose down",
     "lint": "npm run build && eslint --ext ts --ignore-path .gitignore .",
     "run:dist": "node ./dist",
     "start": "ts-node ./src/index.ts",

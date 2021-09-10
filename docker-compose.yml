@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:4.4-bionic
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: birds-api
+      MONGO_INITDB_ROOT_PASSWORD: asdfasdf
+    volumes:
+      - './docker/mongodb_data:/data/db'
+    ports:
+      - 27017:27017
