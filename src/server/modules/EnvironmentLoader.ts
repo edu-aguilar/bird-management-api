@@ -1,20 +1,38 @@
 import dotenv from 'dotenv';
-import { str, cleanEnv, ValidatorSpec } from 'envalid';
+import { str, cleanEnv, ValidatorSpec, CleanedEnvAccessors } from 'envalid';
+
+import { hasValue } from '../../utils/hasValue';
+import { EnvironmentVariables } from '../models/domain/EnvironmentVariables';
 
 type Specs = {
-  [K in keyof unknown]: ValidatorSpec<unknown[K]>;
+  [K in keyof EnvironmentVariables]: ValidatorSpec<EnvironmentVariables[K]>;
 };
 
+export type CleanedEnvironmentVariables = Readonly<
+  EnvironmentVariables & CleanedEnvAccessors
+>;
+
 class EnvironmentLoader {
+  public environmentVariables: EnvironmentVariables;
+
   private readonly environmentFilePath: string = './config/.env';
-  // eslint-disable-next-line @typescript-eslint/ban-types
   private readonly environmentSpecs: Specs = {
+    MONGODB_PASSWORD: str(),
+    MONGODB_USERNAME: str(),
     NAME: str(),
   };
 
-  private environmentVariables: dotenv.DotenvParseOutput | null = null;
+  constructor() {
+    this.environmentVariables = this.load();
+  }
 
-  public load(): void {
+  private load(): EnvironmentVariables {
+    if (hasValue(this.environmentVariables)) {
+      return this.environmentVariables;
+    }
+
+    let environmentVariables: EnvironmentVariables | null = null;
+
     const result: dotenv.DotenvConfigOutput = dotenv.config({
       path: this.environmentFilePath,
     });
@@ -24,17 +42,17 @@ class EnvironmentLoader {
     }
 
     if (result.parsed) {
-      cleanEnv(result.parsed, this.environmentSpecs);
-      this.environmentVariables = result.parsed;
+      environmentVariables = cleanEnv<EnvironmentVariables>(
+        result.parsed,
+        this.environmentSpecs,
+      );
     }
-  }
 
-  public getEnvironmentVariables(): dotenv.DotenvParseOutput {
-    if (this.environmentVariables) {
-      return this.environmentVariables;
-    } else {
-      throw new Error('Environment not loaded, call .load() first');
+    if (!hasValue(environmentVariables)) {
+      throw new Error('Invalid Environment variables');
     }
+
+    return environmentVariables;
   }
 }
 
