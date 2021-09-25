@@ -1,15 +1,12 @@
 import express from 'express';
 
 import { mongoDbDatasource } from './../mongo-db/datasources/MongoDbDatasource';
-import { GetApiRequestHandler } from './request-handler/GetApiRequestHandler';
+import { getApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
   private readonly app: express.Express;
-  private readonly getApiRequestHandler: GetApiRequestHandler;
 
   constructor() {
-    this.getApiRequestHandler = new GetApiRequestHandler();
-
     this.app = express();
     this.setupServer();
     this.setupEndpoints();
@@ -36,6 +33,6 @@ export class Server {
 
   private setupEndpoints(): void {
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.app.route('/').get(this.getApiRequestHandler.handler);
+    this.app.route('/').get(getApiRequestHandler.handler);
   }
 }

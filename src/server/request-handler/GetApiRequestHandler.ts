@@ -17,3 +17,5 @@ export class GetApiRequestHandler {
     response.status(200);
   }
 }
+
+export const getApiRequestHandler: GetApiRequestHandler = new GetApiRequestHandler();
