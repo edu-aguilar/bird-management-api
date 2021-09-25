@@ -8,9 +8,9 @@ export interface Bird extends Entity {
   comments: string | null;
   description: string | null;
   images: url.URL[] | null;
+  name: string | null;
   parentsId: string[] | null;
   partnerId: string | null;
   ringId: string | null;
   sex: BirdSex | null;
-  name: string | null;
 }

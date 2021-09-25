@@ -6,9 +6,9 @@ export interface BirdMongoDbBaseDocument extends EntityMongoDb {
   comments: string | null;
   description: string | null;
   images: string[] | null;
+  name: string | null;
   parents_id: string[] | null;
   partner_id: string | null;
   ring_id: string | null;
   sex: BirdMongoDbSex | null;
-  name: string | null;
 }

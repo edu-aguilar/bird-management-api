@@ -1,5 +1,5 @@
 export interface Entity {
-  id: string;
   createdAt: Date;
+  id: string;
   updatedAt: Date;
 }
