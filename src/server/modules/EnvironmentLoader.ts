@@ -28,7 +28,6 @@ class EnvironmentLoader {
     MONGODB_PASSWORD: str(),
     MONGODB_PORT: port(),
     MONGODB_USERNAME: str(),
-    NAME: str(),
   };
 
   constructor() {
