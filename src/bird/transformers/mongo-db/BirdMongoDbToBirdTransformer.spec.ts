@@ -26,5 +26,21 @@ describe('BirdMongoDbToBirdTransformer', () => {
         expect(result).toStrictEqual(BirdFixtures.withMandatory);
       });
     });
+
+    describe('having a BirdMongoDb with all nullable properties set', () => {
+      describe('when called', () => {
+        let result: unknown;
+
+        beforeAll(async () => {
+          result = await birdMongoDbToBirdTransformer.transform(
+            BirdMongoDbFixtures.withAllProperties,
+          );
+        });
+
+        it('should return a Bird', () => {
+          expect(result).toStrictEqual(BirdFixtures.withAllProperties);
+        });
+      });
+    });
   });
 });
