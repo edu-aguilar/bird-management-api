@@ -1,5 +1,12 @@
 import dotenv from 'dotenv';
-import { str, cleanEnv, ValidatorSpec, CleanedEnvAccessors } from 'envalid';
+import {
+  str,
+  cleanEnv,
+  ValidatorSpec,
+  CleanedEnvAccessors,
+  host,
+  port,
+} from 'envalid';
 
 import { hasValue } from '../../utils/hasValue';
 import { EnvironmentVariables } from '../models/domain/EnvironmentVariables';
@@ -17,7 +24,9 @@ class EnvironmentLoader {
 
   private readonly environmentFilePath: string = './config/.env';
   private readonly environmentSpecs: Specs = {
+    MONGODB_HOST: host(),
     MONGODB_PASSWORD: str(),
+    MONGODB_PORT: port(),
     MONGODB_USERNAME: str(),
     NAME: str(),
   };
