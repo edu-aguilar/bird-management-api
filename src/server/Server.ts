@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { environmentLoader } from './modules/EnvironmentLoader';
+import { mongoDbDatasource } from './../mongo-db/datasources/MongoDbDatasource';
 import { GetApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
@@ -30,12 +30,11 @@ export class Server {
     );
   }
 
-  private setupServer() {
-    environmentLoader.load();
-    environmentLoader.getEnvironmentVariables();
+  private setupServer(): void {
+    void mongoDbDatasource.connect();
   }
 
-  private setupEndpoints() {
+  private setupEndpoints(): void {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.app.route('/').get(this.getApiRequestHandler.handler);
   }
