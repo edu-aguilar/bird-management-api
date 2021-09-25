@@ -1,7 +1,7 @@
 import { getServerInfoNpmAdapter } from '../adapters/npm/GetServerInfoNpmAdapter';
 import { ServerInfo } from '../models/domain/ServerInfo';
 
-class GetServerInfoInteractor {
+export class GetServerInfoInteractor {
   public interact(): ServerInfo {
     const serverInfo: ServerInfo = getServerInfoNpmAdapter.getServerInfo();
 
