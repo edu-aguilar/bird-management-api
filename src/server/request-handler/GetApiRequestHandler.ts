@@ -6,8 +6,11 @@ import { ServerInfo } from '../models/domain/ServerInfo';
 import { serverInfoToServerInfoApiTransformer } from '../transformer/ServerInfoToServerInfoApiTransformer';
 
 export class GetApiRequestHandler {
-  public handler(request: express.Request, response: express.Response): void {
-    const serverInfo: ServerInfo = getServerInfoInteractor.interact();
+  public async handler(
+    request: express.Request,
+    response: express.Response,
+  ): Promise<void> {
+    const serverInfo: ServerInfo = await getServerInfoInteractor.interact();
 
     const serverInfoApi: ServerInfoApi = serverInfoToServerInfoApiTransformer.transform(
       serverInfo,

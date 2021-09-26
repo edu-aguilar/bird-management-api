@@ -21,8 +21,8 @@ describe('GetServerInfoInteractor', () => {
     describe('when called', () => {
       let result: unknown;
 
-      beforeAll(() => {
-        result = getServerInfoInteractor.interact();
+      beforeAll(async () => {
+        result = await getServerInfoInteractor.interact();
       });
 
       it('should call GetServerInfoNpmAdapter.getServerInfo', () => {
