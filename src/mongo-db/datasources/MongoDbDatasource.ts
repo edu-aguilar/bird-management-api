@@ -3,6 +3,8 @@ import * as mongodb from 'mongodb';
 import { mongoDbConfig, MongoDbConfig } from '../MongoDbConfig';
 
 export class MongoDbDatasource {
+  private readonly MONGODB_MAX_CONNETION_TIME: number = 5000;
+
   private mongoDbClient: mongodb.MongoClient | undefined;
   private readonly uri: string;
 
@@ -11,11 +13,11 @@ export class MongoDbDatasource {
   }
 
   public async connect(): Promise<void> {
-    this.mongoDbClient = new mongodb.MongoClient(this.uri);
+    this.mongoDbClient = new mongodb.MongoClient(this.uri, {
+      connectTimeoutMS: this.MONGODB_MAX_CONNETION_TIME,
+    });
 
     await this.mongoDbClient.connect();
-
-    console.log('Connected to MongoDb database.');
   }
 
   public get db(): mongodb.Db {

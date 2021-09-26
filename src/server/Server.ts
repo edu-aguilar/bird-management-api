@@ -1,6 +1,5 @@
 import express from 'express';
 
-import { mongoDbDatasource } from './../mongo-db/datasources/MongoDbDatasource';
 import { getApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
@@ -8,7 +7,6 @@ export class Server {
 
   constructor() {
     this.app = express();
-    this.setupServer();
     this.setupEndpoints();
   }
 
@@ -25,10 +23,6 @@ export class Server {
           .on('error', (err: unknown) => reject(err));
       },
     );
-  }
-
-  private setupServer(): void {
-    void mongoDbDatasource.connect();
   }
 
   private setupEndpoints(): void {

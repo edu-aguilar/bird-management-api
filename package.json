@@ -8,13 +8,13 @@
     "docker:down": "docker-compose down",
     "docker": "docker-compose up -d",
     "lint": "npm run build && eslint --ext ts --ignore-path .gitignore .",
-    "run:dist": "node ./dist",
-    "start": "ts-node ./src/index.ts",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
     "pretest:coverage:view": "npm run test:coverage",
+    "start:dist": "node ./dist",
+    "start": "ts-node ./src/index.ts",
     "test:coverage:view": "http-server coverage/lcov-report",
-    "test:watch": "jest --watchAll"
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watchAll",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
