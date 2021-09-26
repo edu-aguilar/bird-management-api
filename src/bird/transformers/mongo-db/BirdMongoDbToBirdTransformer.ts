@@ -41,3 +41,5 @@ export class BirdMongoDbToBirdTransformer
     return bird;
   }
 }
+
+export const birdMongoDbToBirdTransformer: BirdMongoDbToBirdTransformer = new BirdMongoDbToBirdTransformer();

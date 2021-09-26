@@ -7,6 +7,7 @@ import { hasValue } from '../../utils/hasValue';
 import { EntityCreateOneAdapter } from './../../common/models/domain/EntityCreateOneAdapter';
 import { mongoDbDatasource } from './../datasources/MongoDbDatasource';
 
+// TO DO: unit test this
 export abstract class EntityCreateOneMongoDbAdapter<
   TEntityCreationQuery,
   TEntity extends Entity,
