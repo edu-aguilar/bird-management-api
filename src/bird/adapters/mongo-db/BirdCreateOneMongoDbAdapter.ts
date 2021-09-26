@@ -22,3 +22,5 @@ export class BirdCreateOneMongoDbAdapter extends EntityCreateOneMongoDbAdapter<
     );
   }
 }
+
+export const birdCreateOneMongoDbAdapter: BirdCreateOneMongoDbAdapter = new BirdCreateOneMongoDbAdapter();
