@@ -1,4 +1,5 @@
 import express from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 import { Bird } from '../models/domain/Bird';
 import { BirdCreationQuery } from '../models/domain/BirdCreationQuery';
@@ -26,7 +27,7 @@ export class PostBirdRequestHandler {
 
       const birdApi: BirdApi = await birdToBirdApiTransformer.transform(bird);
 
-      response.status(201);
+      response.status(StatusCodes.CREATED);
       response.send(birdApi);
     } else {
       throw new Error('Body not valid');
