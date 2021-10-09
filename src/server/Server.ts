@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { postBirdRequestHandler } from '../bird/request-handlers/postBirdRequestHandler';
 import { getApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
@@ -7,6 +8,8 @@ export class Server {
 
   constructor() {
     this.app = express();
+    this.app.use(express.json());
+
     this.setupEndpoints();
   }
 
@@ -28,5 +31,8 @@ export class Server {
   private setupEndpoints(): void {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.app.route('/').get(getApiRequestHandler.handler);
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    this.app.route('/birds').post(postBirdRequestHandler.handler);
   }
 }
