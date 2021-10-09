@@ -25,6 +25,7 @@ class EnvironmentLoader {
   private readonly environmentFilePath: string = './config/.env';
   private readonly environmentSpecs: Specs = {
     MONGODB_HOST: host(),
+    MONGODB_NAME: str(),
     MONGODB_PASSWORD: str(),
     MONGODB_PORT: port(),
     MONGODB_USERNAME: str(),

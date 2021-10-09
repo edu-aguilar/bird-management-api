@@ -7,8 +7,10 @@ export class MongoDbDatasource {
 
   private mongoDbClient: mongodb.MongoClient | undefined;
   private readonly uri: string;
+  private readonly dbName: string;
 
   constructor(mongoDbConfig: MongoDbConfig) {
+    this.dbName = mongoDbConfig.name;
     this.uri = `mongodb://${mongoDbConfig.user}:${mongoDbConfig.password}@${mongoDbConfig.host}:${mongoDbConfig.port}`;
   }
 
@@ -25,7 +27,7 @@ export class MongoDbDatasource {
       throw new Error('MongoDbClient not initialized, call .connect() first');
     }
 
-    return this.mongoDbClient.db();
+    return this.mongoDbClient.db(this.dbName);
   }
 }
 
