@@ -2,7 +2,7 @@ import url from 'url';
 
 import { hasValue } from '../../../utils/hasValue';
 import { BirdApiCreationQuery } from '../../models/api/BirdApiCreationQuery';
-import { birdApisexToBirdSex } from '../../models/api/birdApisexToBirdSexMap';
+import { birdApiSexToBirdSex } from '../../models/api/birdApisexToBirdSexMap';
 import { BirdCreationQuery } from '../../models/domain/BirdCreationQuery';
 import { Transformer } from './../../../common/models/domain/Transformer';
 
@@ -56,9 +56,11 @@ export class BirdApiCreationQueryToBirdCreationQueryTransformer
     }
 
     if (hasValue(birdApiCreationQuery.sex)) {
-      birdCreationQuery.sex = birdApisexToBirdSex[birdApiCreationQuery.sex];
+      birdCreationQuery.sex = birdApiSexToBirdSex[birdApiCreationQuery.sex];
     }
 
     return birdCreationQuery;
   }
 }
+
+export const birdApiCreationQueryToBirdCreationQueryTransformer: BirdApiCreationQueryToBirdCreationQueryTransformer = new BirdApiCreationQueryToBirdCreationQueryTransformer();
