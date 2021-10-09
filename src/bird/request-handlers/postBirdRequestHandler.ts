@@ -26,8 +26,8 @@ export class PostBirdRequestHandler {
 
       const birdApi: BirdApi = await birdToBirdApiTransformer.transform(bird);
 
-      response.send(birdApi);
       response.status(201);
+      response.send(birdApi);
     } else {
       throw new Error('Body not valid');
     }
