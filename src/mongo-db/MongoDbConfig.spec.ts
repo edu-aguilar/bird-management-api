@@ -13,6 +13,8 @@ describe('MongoDbConfig', () => {
   describe('when instantiated', () => {
     const expectedHost: string =
       EnvironmentVariablesFixtures.withMandatory.MONGODB_HOST;
+    const expectedName: string =
+      EnvironmentVariablesFixtures.withMandatory.MONGODB_NAME;
     const expectedPassword: string =
       EnvironmentVariablesFixtures.withMandatory.MONGODB_PASSWORD;
     const expectedPort: number =
@@ -22,6 +24,7 @@ describe('MongoDbConfig', () => {
 
     it('should initialize values properly', () => {
       expect(mongoDbConfig.host).toStrictEqual(expectedHost);
+      expect(mongoDbConfig.name).toStrictEqual(expectedName);
       expect(mongoDbConfig.password).toStrictEqual(expectedPassword);
       expect(mongoDbConfig.port).toStrictEqual(expectedPort);
       expect(mongoDbConfig.user).toStrictEqual(expectedUsername);

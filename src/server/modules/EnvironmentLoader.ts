@@ -6,6 +6,7 @@ import {
   CleanedEnvAccessors,
   host,
   port,
+  url,
 } from 'envalid';
 
 import { hasValue } from '../../utils/hasValue';
@@ -24,6 +25,9 @@ class EnvironmentLoader {
 
   private readonly environmentFilePath: string = './config/.env';
   private readonly environmentSpecs: Specs = {
+    IMAGEKIT_API_ENDPOINT: url(),
+    IMAGEKIT_PRIVATE_KEY: str(),
+    IMAGEKIT_PUBLIC_KEY: str(),
     MONGODB_HOST: host(),
     MONGODB_NAME: str(),
     MONGODB_PASSWORD: str(),
