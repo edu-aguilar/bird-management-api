@@ -1,4 +1,4 @@
-import * as url from 'url';
+import url from 'url';
 
 import { Bird } from '../../models/domain/Bird';
 import { BirdSex } from '../../models/domain/BirdSex';

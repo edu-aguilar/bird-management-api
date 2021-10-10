@@ -1,4 +1,4 @@
-import * as url from 'url';
+import url from 'url';
 
 import { hasValue } from '../../../utils/hasValue';
 import { BirdSex } from '../../models/domain/BirdSex';
