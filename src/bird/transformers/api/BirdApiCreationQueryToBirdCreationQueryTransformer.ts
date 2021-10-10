@@ -1,5 +1,3 @@
-import url from 'url';
-
 import { hasValue } from '../../../utils/hasValue';
 import { BirdApiCreationQuery } from '../../models/api/BirdApiCreationQuery';
 import { birdApiSexToBirdSex } from '../../models/api/birdApisexToBirdSexMap';
@@ -34,9 +32,7 @@ export class BirdApiCreationQueryToBirdCreationQueryTransformer
     }
 
     if (hasValue(birdApiCreationQuery.images)) {
-      birdCreationQuery.images = birdApiCreationQuery.images.map(
-        (image: string) => new url.URL(image),
-      );
+      birdCreationQuery.images = birdApiCreationQuery.images;
     }
 
     if (hasValue(birdApiCreationQuery.name)) {

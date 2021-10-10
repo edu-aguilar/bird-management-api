@@ -41,9 +41,7 @@ export class BirdCreationQueryToBirdMongoDbDocumentTransformer
     }
 
     if (hasValue(birdCreationQuery.images)) {
-      birdMongoDbBaseDocument.images = birdCreationQuery.images.map(
-        (image: url.URL) => image.href,
-      );
+      birdMongoDbBaseDocument.images = birdCreationQuery.images;
     }
 
     if (hasValue(birdCreationQuery.name)) {

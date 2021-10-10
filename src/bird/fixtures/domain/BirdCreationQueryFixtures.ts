@@ -1,5 +1,3 @@
-import url from 'url';
-
 import { BirdSex } from '../../models/domain/BirdSex';
 import { BirdCreationQuery } from './../../models/domain/BirdCreationQuery';
 
@@ -21,15 +19,11 @@ export class BirdCreationQueryFixtures {
   }
 
   public static get withAllProperties(): BirdCreationQuery {
-    const images: url.URL[] = [
-      new url.URL('https://some-url.com/some-path/some-image.jpg'),
-    ];
-
     const fixture: BirdCreationQuery = {
       ...this.withMandatory,
       comments: 'some-comments',
       description: 'some-bird-description',
-      images: images,
+      images: ['https://some-url.com/some-path/some-image.jpg'],
       name: 'bird-name',
       parentsId: [
         'ccc1648a-7b1c-4fda-9af9-6ee1345fb663',
