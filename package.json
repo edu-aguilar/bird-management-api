@@ -54,6 +54,7 @@
     "envalid": "^7.1.0",
     "express": "^4.17.1",
     "http-status-codes": "^2.1.4",
+    "imagekit": "^3.2.2",
     "mongodb": "^4.1.1",
     "superstruct": "^0.14.2",
     "uuid": "^8.3.2"
