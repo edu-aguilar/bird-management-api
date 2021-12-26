@@ -12,6 +12,7 @@ import { hasValue } from '../../../utils/hasValue';
 import { ImagekitConfig } from './../../../imagekit/ImagekitConfig';
 
 export class UploadImageImagekitAdapter implements UploadBirdImageAdapter {
+  private readonly folder: string;
   private readonly imageKitInstance: ImageKit;
 
   constructor(imagekitConfig: ImagekitConfig) {
@@ -21,6 +22,7 @@ export class UploadImageImagekitAdapter implements UploadBirdImageAdapter {
       urlEndpoint: imagekitConfig.apiEndpoint,
     };
 
+    this.folder = imagekitConfig.environment;
     this.imageKitInstance = new ImageKit(imageKitOptions);
   }
 
@@ -71,11 +73,11 @@ export class UploadImageImagekitAdapter implements UploadBirdImageAdapter {
     const uploadOptions: UploadOptions[] = [];
 
     let fileName: string = 'no_ring';
-    let folder: string = 'local'; // TODO add this from environment variable
+    let folder: string = this.folder;
 
     if (hasValue(birdCreationQuery.ringId)) {
       fileName = birdCreationQuery.ringId;
-      folder = `local/${birdCreationQuery.ringId}`;
+      folder += `/${birdCreationQuery.ringId}`;
     }
 
     for (const image of birdCreationQuery.images) {
