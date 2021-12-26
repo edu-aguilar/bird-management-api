@@ -25,6 +25,7 @@ class EnvironmentLoader {
 
   private readonly environmentFilePath: string = './config/.env';
   private readonly environmentSpecs: Specs = {
+    ENVIRONMENT: str(),
     IMAGEKIT_API_ENDPOINT: url(),
     IMAGEKIT_PRIVATE_KEY: str(),
     IMAGEKIT_PUBLIC_KEY: str(),

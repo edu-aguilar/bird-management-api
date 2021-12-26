@@ -1,4 +1,5 @@
 export interface EnvironmentVariables {
+  ENVIRONMENT: string;
   IMAGEKIT_API_ENDPOINT: string;
   IMAGEKIT_PRIVATE_KEY: string;
   IMAGEKIT_PUBLIC_KEY: string;
