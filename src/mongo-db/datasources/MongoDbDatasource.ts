@@ -11,7 +11,7 @@ export class MongoDbDatasource {
 
   constructor(mongoDbConfig: MongoDbConfig) {
     this.dbName = mongoDbConfig.name;
-    this.uri = `mongodb://${mongoDbConfig.user}:${mongoDbConfig.password}@${mongoDbConfig.host}:${mongoDbConfig.port}`;
+    this.uri = this.buildConnectionUri(mongoDbConfig);
   }
 
   public async connect(): Promise<void> {
@@ -28,6 +28,18 @@ export class MongoDbDatasource {
     }
 
     return this.mongoDbClient.db(this.dbName);
+  }
+
+  private buildConnectionUri(mongoDbConfig: MongoDbConfig): string {
+    let uri: string = '';
+
+    if (mongoDbConfig.host === 'localhost') {
+      uri = `mongodb://${mongoDbConfig.user}:${mongoDbConfig.password}@${mongoDbConfig.host}:${mongoDbConfig.port}`;
+    } else {
+      uri = `mongodb+srv://${mongoDbConfig.user}:${mongoDbConfig.password}@${mongoDbConfig.host}`;
+    }
+
+    return uri;
   }
 }
 
