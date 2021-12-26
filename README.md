@@ -1,8 +1,14 @@
 ### Roadmap
 
+## Mandatory
+
 - ✅ Simple express Server
-- eslint and prettier rules
-- add environment variables
-- add DB connection
-- birds CRUD
-- dockerize app
+- ✅ Service to handle and store image and documents
+- ✅ Create bird
+- Manage secrets by environment
+- Set up CI/CD
+  - dev branch --> dev environment
+  - main branch --> prod environment
+
+## Optional
+- Handle API errors
