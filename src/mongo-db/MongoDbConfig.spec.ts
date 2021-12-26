@@ -11,6 +11,8 @@ describe('MongoDbConfig', () => {
   });
 
   describe('when instantiated', () => {
+    const expectedEnvironment: string =
+      EnvironmentVariablesFixtures.withMandatory.ENVIRONMENT;
     const expectedHost: string =
       EnvironmentVariablesFixtures.withMandatory.MONGODB_HOST;
     const expectedName: string =
@@ -23,6 +25,7 @@ describe('MongoDbConfig', () => {
       EnvironmentVariablesFixtures.withMandatory.MONGODB_USERNAME;
 
     it('should initialize values properly', () => {
+      expect(mongoDbConfig.environment).toStrictEqual(expectedEnvironment);
       expect(mongoDbConfig.host).toStrictEqual(expectedHost);
       expect(mongoDbConfig.name).toStrictEqual(expectedName);
       expect(mongoDbConfig.password).toStrictEqual(expectedPassword);
