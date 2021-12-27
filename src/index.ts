@@ -1,22 +1,26 @@
-import { mongoDbDatasource } from './mongo-db/datasources/MongoDbDatasource';
+import { MongoDbDatasourceBuilder } from './mongo-db/builders/MongoDbDatasourceBuilder';
+import { MongoDbDatasource } from './mongo-db/datasources/MongoDbDatasource';
 import { Server } from './server/Server';
 
 class BirdApp {
   public async initMongoDbConnection(): Promise<void> {
     try {
+      const mongoDbDatasource: MongoDbDatasource = new MongoDbDatasourceBuilder().build();
+
       await mongoDbDatasource.connect();
 
       console.log('Connected to MongoDb');
     } catch (error: unknown) {
-      const stringifiedError: string = JSON.stringify(error);
-      const formattedError: string = `Error connecting to MongoDb database. Reason: ${stringifiedError}`;
+      const formattedError: string = `Error connecting to MongoDb database. Reason: ${
+        error as string
+      }`;
 
       throw new Error(formattedError);
     }
   }
 
   public async initServer(): Promise<void> {
-    // TO DO: set port from environment config file.
+    // TODO: set port from environment config file.
     const port: number = 3000;
     const server: Server = new Server();
 

@@ -2,22 +2,46 @@ jest.mock('./../adapters/mongo-db/BirdCreateOneMongoDbAdapter');
 jest.mock('../../common/adapters/imagekit/UploadImageImagekitAdapter');
 
 import { UploadImageImagekitAdapter } from '../../common/adapters/imagekit/UploadImageImagekitAdapter';
-import { birdCreateOneMongoDbAdapter } from './../adapters/mongo-db/BirdCreateOneMongoDbAdapter';
+import { EnvironmentVariablesFixtures } from './../../server/fixtures/domain/EnvironmentVariablesFixtures';
+import { EnvironmentLoader } from './../../server/modules/EnvironmentLoader';
+import { BirdCreateOneMongoDbAdapter } from './../adapters/mongo-db/BirdCreateOneMongoDbAdapter';
 import { BirdCreationQueryFixtures } from './../fixtures/domain/BirdCreationQueryFixtures';
 import { BirdFixtures } from './../fixtures/domain/BirdFixtures';
 import { CreateOneBirdInteractor } from './CreateOneBirdInteractor';
 
 describe('CreateOneBirdInteractor', () => {
+  let birdCreateOneMongoDbAdapter: jest.Mocked<BirdCreateOneMongoDbAdapter>;
+  let environmentLoader: jest.Mocked<EnvironmentLoader>;
+
   let createOneBirdInteractor: CreateOneBirdInteractor;
 
   beforeAll(() => {
-    createOneBirdInteractor = new CreateOneBirdInteractor();
+    birdCreateOneMongoDbAdapter = ({
+      createOne: jest.fn(),
+    } as Partial<
+      jest.Mocked<BirdCreateOneMongoDbAdapter>
+    >) as jest.Mocked<BirdCreateOneMongoDbAdapter>;
+
+    environmentLoader = ({
+      load: jest.fn(),
+    } as Partial<
+      jest.Mocked<EnvironmentLoader>
+    >) as jest.Mocked<EnvironmentLoader>;
+
+    createOneBirdInteractor = new CreateOneBirdInteractor(
+      birdCreateOneMongoDbAdapter,
+      environmentLoader,
+    );
   });
 
   describe('.interact()', () => {
     beforeAll(() => {
       (birdCreateOneMongoDbAdapter.createOne as jest.Mock).mockResolvedValue(
         BirdFixtures.withMandatory,
+      );
+
+      (environmentLoader.load as jest.Mock).mockReturnValue(
+        EnvironmentVariablesFixtures.withMandatory,
       );
 
       (UploadImageImagekitAdapter.prototype

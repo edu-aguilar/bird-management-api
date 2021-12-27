@@ -4,33 +4,27 @@ import { Entity } from '../../common/models/domain/Entity';
 import { Transformer } from '../../common/models/domain/Transformer';
 import { EntityMongoDb } from '../../common/models/mongo-db/EntityMongoDb';
 import { hasValue } from '../../utils/hasValue';
+import { MongoDbDatasource } from '../datasources/MongoDbDatasource';
 import { EntityCreateOneAdapter } from './../../common/models/domain/EntityCreateOneAdapter';
-import { mongoDbDatasource } from './../datasources/MongoDbDatasource';
 
-// TO DO: unit test this
+// TODO: unit test this
 export abstract class EntityCreateOneMongoDbAdapter<
   TEntityCreationQuery,
   TEntity extends Entity,
   TEntityMongoDbDocument extends EntityMongoDb,
   TEntityMongoDb extends EntityMongoDb
 > implements EntityCreateOneAdapter<TEntityCreationQuery, TEntity> {
-  private readonly collectionName: string;
-  private readonly entityCreationQueryToEntityMongoDbDocumentTransformer: Transformer<
-    TEntityCreationQuery,
-    TEntityMongoDbDocument
-  >;
-  private readonly entityMongoDbToEntityTransformer: Transformer<
-    TEntityMongoDb,
-    TEntity
-  >;
-
   constructor(
-    collectionName: string,
-    entityCreationQueryToEntityMongoDbDocumentTransformer: Transformer<
+    private readonly collectionName: string,
+    private readonly entityCreationQueryToEntityMongoDbDocumentTransformer: Transformer<
       TEntityCreationQuery,
       TEntityMongoDbDocument
     >,
-    entityMongoDbToEntityTransformer: Transformer<TEntityMongoDb, TEntity>,
+    private readonly entityMongoDbToEntityTransformer: Transformer<
+      TEntityMongoDb,
+      TEntity
+    >,
+    private readonly mongoDbDatasource: MongoDbDatasource,
   ) {
     this.collectionName = collectionName;
     this.entityCreationQueryToEntityMongoDbDocumentTransformer = entityCreationQueryToEntityMongoDbDocumentTransformer;
@@ -44,7 +38,7 @@ export abstract class EntityCreateOneMongoDbAdapter<
       entityCreationQuery,
     );
 
-    const collection: mongodb.Collection<TEntityMongoDbDocument> = mongoDbDatasource.db.collection(
+    const collection: mongodb.Collection<TEntityMongoDbDocument> = this.mongoDbDatasource.db.collection(
       this.collectionName,
     );
 

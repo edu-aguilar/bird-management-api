@@ -1,6 +1,6 @@
 import * as mongodb from 'mongodb';
 
-import { mongoDbConfig, MongoDbConfig } from '../MongoDbConfig';
+import { MongoDbConfig } from '../MongoDbConfig';
 
 export class MongoDbDatasource {
   private readonly MONGODB_MAX_CONNETION_TIME: number = 5000;
@@ -33,7 +33,7 @@ export class MongoDbDatasource {
   private buildConnectionUri(mongoDbConfig: MongoDbConfig): string {
     let uri: string = '';
 
-    if (mongoDbConfig.host === 'localhost') {
+    if (mongoDbConfig.environment === 'local') {
       uri = `mongodb://${mongoDbConfig.user}:${mongoDbConfig.password}@${mongoDbConfig.host}:${mongoDbConfig.port}`;
     } else {
       uri = `mongodb+srv://${mongoDbConfig.user}:${mongoDbConfig.password}@${mongoDbConfig.host}`;
@@ -42,7 +42,3 @@ export class MongoDbDatasource {
     return uri;
   }
 }
-
-export const mongoDbDatasource: MongoDbDatasource = new MongoDbDatasource(
-  mongoDbConfig,
-);

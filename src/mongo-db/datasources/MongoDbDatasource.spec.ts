@@ -2,10 +2,18 @@ jest.mock('mongodb');
 
 import * as mongodb from 'mongodb';
 
-import { MongoDbDatasource, mongoDbDatasource } from './MongoDbDatasource';
+import { EnvironmentVariablesFixtures } from './../../server/fixtures/domain/EnvironmentVariablesFixtures';
+import { MongoDbConfig } from './../MongoDbConfig';
+import { MongoDbDatasource } from './MongoDbDatasource';
 
 describe('MongoDbDatasource', () => {
-  const testMongoDbDatasource: MongoDbDatasource = mongoDbDatasource;
+  const mongoDbConfig: MongoDbConfig = new MongoDbConfig(
+    EnvironmentVariablesFixtures.withMandatory,
+  );
+
+  const testMongoDbDatasource: MongoDbDatasource = new MongoDbDatasource(
+    mongoDbConfig,
+  );
 
   describe('.db before executing .connect()', () => {
     let result: unknown;

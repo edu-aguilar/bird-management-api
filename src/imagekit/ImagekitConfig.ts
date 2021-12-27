@@ -1,5 +1,4 @@
 import { EnvironmentVariables } from '../server/models/domain/EnvironmentVariables';
-import { environmentLoader } from '../server/modules/EnvironmentLoader';
 
 export class ImagekitConfig {
   public readonly apiEndpoint: string;
@@ -14,7 +13,3 @@ export class ImagekitConfig {
     this.publicKey = environmentVariables.IMAGEKIT_PUBLIC_KEY;
   }
 }
-
-export const imagekitConfig: ImagekitConfig = new ImagekitConfig(
-  environmentLoader.environmentVariables,
-);

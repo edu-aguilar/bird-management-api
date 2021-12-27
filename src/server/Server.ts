@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { postBirdRequestHandler } from '../bird/request-handlers/postBirdRequestHandler';
+import { PostBirdRequestHandler } from '../bird/request-handlers/postBirdRequestHandler';
 import { getApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
@@ -32,7 +32,10 @@ export class Server {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.app.route('/').get(getApiRequestHandler.handler);
 
+    const postBirdRequestHandler: PostBirdRequestHandler = new PostBirdRequestHandler();
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.app.route('/birds').post(postBirdRequestHandler.handler);
+    this.app
+      .route('/birds')
+      .post(postBirdRequestHandler.handler.bind(postBirdRequestHandler));
   }
 }

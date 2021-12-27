@@ -1,5 +1,4 @@
 import { EnvironmentVariables } from '../server/models/domain/EnvironmentVariables';
-import { environmentLoader } from '../server/modules/EnvironmentLoader';
 
 export class MongoDbConfig {
   public readonly environment: string;
@@ -18,7 +17,3 @@ export class MongoDbConfig {
     this.user = environmentVariables.MONGODB_USERNAME;
   }
 }
-
-export const mongoDbConfig: MongoDbConfig = new MongoDbConfig(
-  environmentLoader.environmentVariables,
-);

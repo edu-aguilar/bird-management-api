@@ -20,8 +20,8 @@ export type CleanedEnvironmentVariables = Readonly<
   EnvironmentVariables & CleanedEnvAccessors
 >;
 
-class EnvironmentLoader {
-  public environmentVariables: EnvironmentVariables;
+export class EnvironmentLoader {
+  private readonly environmentVariables: EnvironmentVariables;
 
   private readonly environmentFilePath: string = './config/.env';
   private readonly environmentSpecs: Specs = {
@@ -40,7 +40,7 @@ class EnvironmentLoader {
     this.environmentVariables = this.load();
   }
 
-  private load(): EnvironmentVariables {
+  public load(): EnvironmentVariables {
     if (hasValue(this.environmentVariables)) {
       return this.environmentVariables;
     }
@@ -69,5 +69,3 @@ class EnvironmentLoader {
     return environmentVariables;
   }
 }
-
-export const environmentLoader: EnvironmentLoader = new EnvironmentLoader();
