@@ -14,7 +14,7 @@
     "lint": "npm run build && eslint --ext ts --ignore-path .gitignore .",
     "pretest:coverage:view": "npm run test:coverage",
     "start:dist": "node ./dist",
-    "start": "ts-node ./src/index.ts",
+    "start": "NODE_ENV=local ts-node ./src/index.ts",
     "test:coverage:view": "http-server coverage/lcov-report",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watchAll",
