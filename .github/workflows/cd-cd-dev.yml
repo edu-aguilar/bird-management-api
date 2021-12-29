@@ -23,16 +23,6 @@ jobs:
       - name: Install project dependencies
         run: npm ci
 
-      - name: Traza
-        run: echo github.event_name ${{ github.event_name }} github.event.action
-
-      - name: Traza 2 - Create .env file for DEV environment
-        run: |
-          touch .env
-          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-          echo ENV_SECRET_TEST=${{ secrets.ENV_SECRET_TEST }} >> .env
-          cat .env
-
       - name: Build project
         run: npm run build
 
@@ -42,6 +32,7 @@ jobs:
   deploy:
     needs: build-test
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Clone project from the repository
         uses: actions/checkout@v2
@@ -64,6 +55,5 @@ jobs:
           echo ENV_SECRET_TEST=${{ secrets.ENV_SECRET_TEST }} >> .env
           cat .env
       
-      - name: Deploy
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        run: echo Tenemos que desplegar
+      - name: Deploy to Heroku
+        run: echo Tenemos que desplegar el api en heroku
