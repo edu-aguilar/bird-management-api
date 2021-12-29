@@ -1,10 +1,10 @@
-name: CI/CD-dev
+name: CI/CD-prod
 
 on:
   pull_request:
-    branches: [ dev ]
+    branches: [ main ]
   push:
-    branches: [ dev ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -32,7 +32,7 @@ jobs:
   deploy:
     needs: build-test
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     if: github.event_name == 'push'
     steps:
       - name: Clone project from the repository
@@ -49,7 +49,7 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Create .env file for DEV environment
+      - name: Create .env file for PROD environment
         run: |
           touch .env
           echo ENVIRONMENT=${{ secrets.ENVIRONMENT }} >> .env
@@ -64,4 +64,9 @@ jobs:
           cat .env
       
       - name: Deploy to Heroku
-        run: echo Tenemos que desplegar el api en heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: birds-management-api-prod
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          branch: main
