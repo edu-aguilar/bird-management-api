@@ -12,6 +12,7 @@ export class EnvironmentVariablesFixtures {
       MONGODB_PASSWORD: 'password',
       MONGODB_PORT: 3000,
       MONGODB_USERNAME: 'username',
+      PORT: 0,
     };
 
     return fixture;

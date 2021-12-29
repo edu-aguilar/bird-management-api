@@ -33,6 +33,7 @@ export class EnvironmentLoader {
     MONGODB_PASSWORD: str(),
     MONGODB_PORT: port(),
     MONGODB_USERNAME: str(),
+    PORT: port(),
   };
 
   constructor() {
@@ -82,20 +83,21 @@ export class EnvironmentLoader {
   }
 
   private loadEnvironmentVariablesFromProcess(): EnvironmentVariables {
-    let environmentVariables: EnvironmentVariables = {
-      ENVIRONMENT: process.env.ENVIRONMENT as string,
-      IMAGEKIT_API_ENDPOINT: process.env.IMAGEKIT_API_ENDPOINT as string,
-      IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY as string,
-      IMAGEKIT_PUBLIC_KEY: process.env.IMAGEKIT_PUBLIC_KEY as string,
-      MONGODB_HOST: process.env.MONGODB_HOST as string,
-      MONGODB_NAME: process.env.MONGODB_NAME as string,
-      MONGODB_PASSWORD: process.env.MONGODB_PASSWORD as string,
-      MONGODB_PORT: (process.env.MONGODB_PORT as unknown) as number,
-      MONGODB_USERNAME: process.env.MONGODB_USERNAME as string,
+    const processEnvironmentVariables: unknown = {
+      ENVIRONMENT: process.env.ENVIRONMENT,
+      IMAGEKIT_API_ENDPOINT: process.env.IMAGEKIT_API_ENDPOINT,
+      IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
+      IMAGEKIT_PUBLIC_KEY: process.env.IMAGEKIT_PUBLIC_KEY,
+      MONGODB_HOST: process.env.MONGODB_HOST,
+      MONGODB_NAME: process.env.MONGODB_NAME,
+      MONGODB_PASSWORD: process.env.MONGODB_PASSWORD,
+      MONGODB_PORT: process.env.MONGODB_PORT,
+      MONGODB_USERNAME: process.env.MONGODB_USERNAME,
+      PORT: process.env.PORT,
     };
 
-    environmentVariables = cleanEnv<EnvironmentVariables>(
-      environmentVariables,
+    const environmentVariables: EnvironmentVariables = cleanEnv<EnvironmentVariables>(
+      processEnvironmentVariables,
       this.environmentSpecs,
     );
 
