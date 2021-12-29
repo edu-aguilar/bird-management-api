@@ -23,7 +23,6 @@ export type CleanedEnvironmentVariables = Readonly<
 export class EnvironmentLoader {
   private readonly environmentVariables: EnvironmentVariables;
 
-  private readonly environmentFilePath: string = './.env';
   private readonly environmentSpecs: Specs = {
     ENVIRONMENT: str(),
     IMAGEKIT_API_ENDPOINT: url(),
@@ -47,9 +46,7 @@ export class EnvironmentLoader {
 
     let environmentVariables: EnvironmentVariables | null = null;
 
-    const result: dotenv.DotenvConfigOutput = dotenv.config({
-      path: this.environmentFilePath,
-    });
+    const result: dotenv.DotenvConfigOutput = dotenv.config();
 
     if (result.error) {
       throw new Error('Error loading .env file');
