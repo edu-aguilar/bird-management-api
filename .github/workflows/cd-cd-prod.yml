@@ -1,0 +1,69 @@
+name: CI/CD-prod
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone project from the repository
+        uses: actions/checkout@v2
+        
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          
+      - name: Install project dependencies
+        run: npm ci
+
+      - name: Traza
+        run: echo github.event_name ${{ github.event_name }} github.event.action $github.event.action
+      
+      - name: Traza 2 - Create .env file for DEV environment
+        run: |
+          touch .env
+          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
+          echo ENV_SECRET_TEST=${{ secrets.ENV_SECRET_TEST }} >> .env
+          cat .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Execute tests
+        run: npm run test
+  
+  deploy:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone project from the repository
+        uses: actions/checkout@v2
+          
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          
+      - name: Install project dependencies
+        run: npm ci
+        
+      - name: Build project
+        run: npm run build
+
+      - name: Create .env file for DEV environment
+        run: |
+          touch .env
+          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
+          echo ENV_SECRET_TEST=${{ secrets.ENV_SECRET_TEST }} >> .env
+          cat .env
+      
+      - name: Deploy
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        run: echo Tenemos que desplegar
