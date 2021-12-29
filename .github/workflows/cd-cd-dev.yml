@@ -52,8 +52,15 @@ jobs:
       - name: Create .env file for DEV environment
         run: |
           touch .env
-          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-          echo ENV_SECRET_TEST=${{ secrets.ENV_SECRET_TEST }} >> .env
+          echo ENVIRONMENT=${{ secrets.ENVIRONMENT }} >> .env
+          echo IMAGEKIT_API_ENDPOINT=${{ secrets.IMAGEKIT_API_ENDPOINT }} >> .env
+          echo IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }} >> .env
+          echo IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} >> .env
+          echo MONGODB_HOST=${{ secrets.MONGODB_HOST }} >> .env
+          echo MONGODB_NAME=${{ secrets.MONGODB_NAME }} >> .env
+          echo MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} >> .env
+          echo MONGODB_PORT=${{ secrets.MONGODB_PORT }} >> .env
+          echo MONGODB_USERNAME=${{ secrets.MONGODB_USERNAME }} >> .env
           cat .env
       
       - name: Deploy to Heroku
