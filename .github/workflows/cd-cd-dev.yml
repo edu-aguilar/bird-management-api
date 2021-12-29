@@ -35,6 +35,10 @@ jobs:
     environment: dev
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
+
+      - name: Traza
+        run: echo ${{ github.event_name }} ${{ github.event.action }} ${{ github.event.pull_request.merged }} 
+
       - name: Clone project from the repository
         uses: actions/checkout@v2
           
