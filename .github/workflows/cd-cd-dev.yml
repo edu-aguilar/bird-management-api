@@ -11,6 +11,7 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Clone project from the repository
         uses: actions/checkout@v2
@@ -28,6 +29,7 @@ jobs:
           touch .env
           echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
           echo ENV_SECRET_TEST=${{ secrets.ENV_SECRET_TEST }} >> .env
+          echo ENV_SECRET_TEST=${{ env.ENV_SECRET_TEST }} >> .env
           cat .env
 
       - name: Build project
