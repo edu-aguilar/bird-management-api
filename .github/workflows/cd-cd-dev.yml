@@ -33,11 +33,8 @@ jobs:
     needs: build-test
     runs-on: ubuntu-latest
     environment: dev
+    if: github.event_name == 'push'
     steps:
-
-      - name: Traza
-        run: echo ${{ github.event_name }} ${{ github.event.action }} ${{ github.event.pull_request.merged }} 
-
       - name: Clone project from the repository
         uses: actions/checkout@v2
           

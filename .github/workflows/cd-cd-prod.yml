@@ -32,7 +32,8 @@ jobs:
   deploy:
     needs: build-test
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    environment: prod
+    if: github.event_name == 'push'
     steps:
       - name: Clone project from the repository
         uses: actions/checkout@v2
