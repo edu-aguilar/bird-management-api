@@ -23,7 +23,7 @@ export type CleanedEnvironmentVariables = Readonly<
 export class EnvironmentLoader {
   private readonly environmentVariables: EnvironmentVariables;
 
-  private readonly environmentFilePath: string = './config/.env';
+  private readonly environmentFilePath: string = './.env';
   private readonly environmentSpecs: Specs = {
     ENVIRONMENT: str(),
     IMAGEKIT_API_ENDPOINT: url(),
