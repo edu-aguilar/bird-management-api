@@ -20,8 +20,9 @@ export type CleanedEnvironmentVariables = Readonly<
   EnvironmentVariables & CleanedEnvAccessors
 >;
 
+let environmentVariables: EnvironmentVariables | null = null;
+
 export class EnvironmentLoader {
-  private readonly environmentVariables: EnvironmentVariables;
 
   private readonly environmentSpecs: Specs = {
     ENVIRONMENT: str(),
@@ -36,15 +37,15 @@ export class EnvironmentLoader {
     PORT: port(),
   };
 
-  constructor() {
-    this.environmentVariables = this.load();
-  }
-
   public load(): EnvironmentVariables {
-    if (hasValue(this.environmentVariables)) {
-      return this.environmentVariables;
+    if (!hasValue(environmentVariables)) {
+      environmentVariables = this.loadEnvironmentVariables();
     }
 
+    return environmentVariables;  
+  }
+
+  private loadEnvironmentVariables(): EnvironmentVariables {
     let environmentVariables: EnvironmentVariables | null = null;
 
     if (process.env.NODE_ENV === 'local') {
