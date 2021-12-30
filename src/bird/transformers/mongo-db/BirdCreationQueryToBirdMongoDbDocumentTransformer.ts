@@ -1,5 +1,3 @@
-import url from 'url';
-
 import { v4 as uuidv4 } from 'uuid';
 
 import { hasValue } from '../../../utils/hasValue';
@@ -10,7 +8,8 @@ import { birdSexToBirdMongoDbSexMap } from '../../models/mongo-db/birdSexToBirdM
 import { Transformer } from './../../../common/models/domain/Transformer';
 
 export class BirdCreationQueryToBirdMongoDbDocumentTransformer
-  implements Transformer<BirdCreationQuery, BirdMongoDbDocument> {
+  implements Transformer<BirdCreationQuery, BirdMongoDbDocument>
+{
   public async transform(
     birdCreationQuery: BirdCreationQuery,
   ): Promise<BirdMongoDbBaseDocument> {
@@ -69,4 +68,5 @@ export class BirdCreationQueryToBirdMongoDbDocumentTransformer
   }
 }
 
-export const birdCreationQueryToBirdMongoDbDocumentTransformer: BirdCreationQueryToBirdMongoDbDocumentTransformer = new BirdCreationQueryToBirdMongoDbDocumentTransformer();
+export const birdCreationQueryToBirdMongoDbDocumentTransformer: BirdCreationQueryToBirdMongoDbDocumentTransformer =
+  new BirdCreationQueryToBirdMongoDbDocumentTransformer();
