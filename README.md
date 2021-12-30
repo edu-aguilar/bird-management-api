@@ -9,7 +9,11 @@
 - ✅ Set up CI/CD
   - dev branch --> dev environment
   - main branch --> prod environment
-- Test CD to heroku
+- ✅ Test CD to heroku
+- Update Bird
+- Create brood
+- Update brood
+- List couples
 
 ## Optional
 - Handle API errors
