@@ -70,3 +70,4 @@ jobs:
           heroku_app_name: birds-management-api-prod
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           branch: main
+          env_file: ".env"
