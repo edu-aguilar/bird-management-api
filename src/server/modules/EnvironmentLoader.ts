@@ -1,41 +1,107 @@
 import dotenv from 'dotenv';
-import { str, cleanEnv, ValidatorSpec } from 'envalid';
+import {
+  str,
+  cleanEnv,
+  ValidatorSpec,
+  CleanedEnvAccessors,
+  host,
+  port,
+  url,
+} from 'envalid';
+
+import { hasValue } from '../../utils/hasValue';
+import { EnvironmentVariables } from '../models/domain/EnvironmentVariables';
 
 type Specs = {
-  [K in keyof unknown]: ValidatorSpec<unknown[K]>;
+  [K in keyof EnvironmentVariables]: ValidatorSpec<EnvironmentVariables[K]>;
 };
 
-class EnvironmentLoader {
-  private readonly environmentFilePath: string = './config/.env';
-  // eslint-disable-next-line @typescript-eslint/ban-types
+export type CleanedEnvironmentVariables = Readonly<
+  EnvironmentVariables & CleanedEnvAccessors
+>;
+
+let environmentVariables: EnvironmentVariables | null = null;
+
+export class EnvironmentLoader {
+
   private readonly environmentSpecs: Specs = {
-    NAME: str(),
+    ENVIRONMENT: str(),
+    IMAGEKIT_API_ENDPOINT: url(),
+    IMAGEKIT_PRIVATE_KEY: str(),
+    IMAGEKIT_PUBLIC_KEY: str(),
+    MONGODB_HOST: host(),
+    MONGODB_NAME: str(),
+    MONGODB_PASSWORD: str(),
+    MONGODB_PORT: port(),
+    MONGODB_USERNAME: str(),
+    PORT: port(),
   };
 
-  private environmentVariables: dotenv.DotenvParseOutput | null = null;
+  public load(): EnvironmentVariables {
+    if (!hasValue(environmentVariables)) {
+      environmentVariables = this.loadEnvironmentVariables();
+    }
 
-  public load(): void {
-    const result: dotenv.DotenvConfigOutput = dotenv.config({
-      path: this.environmentFilePath,
-    });
+    return environmentVariables;  
+  }
+
+  private loadEnvironmentVariables(): EnvironmentVariables {
+    let environmentVariables: EnvironmentVariables | null = null;
+
+    if (process.env.NODE_ENV === 'local') {
+      environmentVariables = this.loadEnvironmentVariablesFromEnvFile();
+    } else {
+      environmentVariables = this.loadEnvironmentVariablesFromProcess();
+    }
+
+    if (!hasValue(environmentVariables)) {
+      throw new Error('Invalid Environment variables');
+    }
+
+    return environmentVariables;
+  }
+
+  private loadEnvironmentVariablesFromEnvFile(): EnvironmentVariables {
+    const result: dotenv.DotenvConfigOutput = dotenv.config();
+    let environmentVariables: EnvironmentVariables | null = null;
 
     if (result.error) {
       throw new Error('Error loading .env file');
     }
 
     if (result.parsed) {
-      cleanEnv(result.parsed, this.environmentSpecs);
-      this.environmentVariables = result.parsed;
+      environmentVariables = cleanEnv<EnvironmentVariables>(
+        result.parsed,
+        this.environmentSpecs,
+      );
     }
+
+    if (!hasValue(environmentVariables)) {
+      throw new Error('error loading environment variables');
+    }
+
+    return environmentVariables;
   }
 
-  public getEnvironmentVariables(): dotenv.DotenvParseOutput {
-    if (this.environmentVariables) {
-      return this.environmentVariables;
-    } else {
-      throw new Error('Environment not loaded, call .load() first');
-    }
+  private loadEnvironmentVariablesFromProcess(): EnvironmentVariables {
+    const processEnvironmentVariables: unknown = {
+      ENVIRONMENT: process.env.ENVIRONMENT,
+      IMAGEKIT_API_ENDPOINT: process.env.IMAGEKIT_API_ENDPOINT,
+      IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY,
+      IMAGEKIT_PUBLIC_KEY: process.env.IMAGEKIT_PUBLIC_KEY,
+      MONGODB_HOST: process.env.MONGODB_HOST,
+      MONGODB_NAME: process.env.MONGODB_NAME,
+      MONGODB_PASSWORD: process.env.MONGODB_PASSWORD,
+      MONGODB_PORT: process.env.MONGODB_PORT,
+      MONGODB_USERNAME: process.env.MONGODB_USERNAME,
+      PORT: process.env.PORT,
+    };
+
+    const environmentVariables: EnvironmentVariables = cleanEnv<EnvironmentVariables>(
+      processEnvironmentVariables,
+      this.environmentSpecs,
+    );
+
+    return environmentVariables;
   }
 }
-
-export const environmentLoader: EnvironmentLoader = new EnvironmentLoader();

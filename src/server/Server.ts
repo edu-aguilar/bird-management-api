@@ -1,17 +1,15 @@
 import express from 'express';
 
-import { environmentLoader } from './modules/EnvironmentLoader';
-import { GetApiRequestHandler } from './request-handler/GetApiRequestHandler';
+import { PostBirdRequestHandler } from '../bird/request-handlers/postBirdRequestHandler';
+import { getApiRequestHandler } from './request-handler/GetApiRequestHandler';
 
 export class Server {
   private readonly app: express.Express;
-  private readonly getApiRequestHandler: GetApiRequestHandler;
 
   constructor() {
-    this.getApiRequestHandler = new GetApiRequestHandler();
-
     this.app = express();
-    this.setupServer();
+    this.app.use(express.json());
+
     this.setupEndpoints();
   }
 
@@ -30,13 +28,14 @@ export class Server {
     );
   }
 
-  private setupServer() {
-    environmentLoader.load();
-    environmentLoader.getEnvironmentVariables();
-  }
-
-  private setupEndpoints() {
+  private setupEndpoints(): void {
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.app.route('/').get(this.getApiRequestHandler.handler);
+    this.app.route('/').get(getApiRequestHandler.handler);
+
+    const postBirdRequestHandler: PostBirdRequestHandler = new PostBirdRequestHandler();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    this.app
+      .route('/birds')
+      .post(postBirdRequestHandler.handler.bind(postBirdRequestHandler));
   }
 }
