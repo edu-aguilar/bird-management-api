@@ -1,3 +1,7 @@
+## [UNRELEASED]
+
+### Added
+- Added `PUT /birds/:id` endpoint to update a Bird.
 
 
 ## v0.1.0
